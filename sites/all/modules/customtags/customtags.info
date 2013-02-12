@@ -1,0 +1,9 @@
+name = Custom Tags
+description = Integrates Tagadelic and Galleria views.
+core = 7.x
+dependencies[] = taxonomy
+dependencies[] = tagadelic
+dependencies[] = views
+package = "Fitsolve"
+
+files[] = customtags.module

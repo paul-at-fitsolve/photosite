@@ -1,0 +1,6 @@
+name = Facebook Login
+description = Adds the Facebook login FBML button.
+core = 7.x
+package = "Fitsolve"
+
+files[] = fblogin.module

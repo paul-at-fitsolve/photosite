@@ -1,0 +1,57 @@
+<?php
+
+function fblogin_node_view($node) {
+    drupal_add_js(array('fblogin' => array('title' => $node->title)), 'setting');
+}
+
+function fblogin_init() {
+
+    if (!drupal_is_front_page()) {
+        drupal_add_js(drupal_get_path('module', 'fblogin') . '/fblogin.js', 'file');
+    }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function fblogin_block_info() {
+    $blocks = array();
+    $blocks['fblogin'] = array();
+    $blocks['fblogin']['info'] = 'FBlogin';
+    $blocks['fblogin']['cache'] = DRUPAL_CACHE_PER_PAGE;
+
+    $blocks['votebutton'] = array();
+    $blocks['votebutton']['info'] = 'Vote';
+    $blocks['votebutton']['cache'] = DRUPAL_CACHE_PER_PAGE;
+
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function fblogin_block_view($delta = '') {
+    $blocks = array();
+
+    switch ($delta) {
+        case 'fblogin':
+            $blocks['subject'] = 'FBLogin';
+            $blocks['content'] = array('FBLogin' => array('#markup' => '<fb:login-button show-faces="true" width="200" max-rows="1" scope="publish_actions">
+  </fb:login-button>'));
+            break;
+        case 'votebutton':
+            $blocks['subject'] = 'Votebutton';
+            $blocks['content'] = array('votebutton' => array('#markup' => '<form><input type="button" value="Vote" onclick="Drupal.postVote()" /></form>'));
+    }
+    return $blocks;
+}
+
+function curPageURL() {
+    $pageURL = 'http://';
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+    } else {
+        $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+    }
+    return $pageURL;
+}
